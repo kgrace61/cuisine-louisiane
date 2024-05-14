@@ -5,9 +5,9 @@ An app for Cuisine Louisiane catering company. A user can view menus, build thei
 ## Deliverables
 
 * A user can see menu items, and filter by category
-* A user can view menu descriptions on a separate page (offerings? items?/id)
 * A user can view about information on the company and venue
 * A user can choose menu items to build their own menu for an event
+* A user can name their menu (Kate's Bridal Shower, etc)
 * A user can delete menu items from the menus that they build
 * A user can view pricing updated dynamically based on event size (amount of people)
 
@@ -37,32 +37,11 @@ An app for Cuisine Louisiane catering company. A user can view menus, build thei
 ## Database Schema
 <img src="planning/database_schema.png" alt="database_schema">
 
+## API Routes
+<img src="planning/api_routes.png" alt="api-routes">
+
 ## Kanban Board
 <img src="planning/kanban.png" alt="kanban-board">
-This README should serve as a template for your own- go through the important
-files in your project and describe what they do. Each file that you edit (you
-can ignore your migration files) should get at least a paragraph. Each function
-should get a small blurb.
-
-You should descibe your application first, and with a good level of detail. The
-rest should be ordered by importance to the user. (Probably routes next, then
-models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
----
-
-## Conclusion
-
-A lot of work goes into a full-stack application, but it all relies on concepts
-that you've practiced thoroughly throughout this phase. Hopefully this template
-and guide will get you off to a good start with your Phase 4 Project.
-
-Happy coding!
-
----
 
 ## Resources
 
