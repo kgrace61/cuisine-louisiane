@@ -16,7 +16,7 @@ class Menu(db.Model, SerializerMixin):
     name = db.Column(db.String(255), nullable=False)
     category = db.Column(db.String(255), nullable=False)
     
-    items = db.relationship('MenuItem', back_populates='menus')
+    items = db.relationship('MenuItem', back_populates='menu')
 
 class MenuItem(db.Model, SerializerMixin):
     __tablename__ ='menu_items'
@@ -38,10 +38,10 @@ class UserMenu(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    guest_count = db.Column(db.Integer)
-    subtotal = db.Column(db.Float)
-    tax = db.Column(db.Float)
-    total = db.Column(db.Float)
+    guest_count = db.Column(db.Integer, nullable=True)
+    subtotal = db.Column(db.Float, nullable=True)
+    tax = db.Column(db.Float, nullable=True)
+    total = db.Column(db.Float, nullable=True)
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
