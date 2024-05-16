@@ -12,7 +12,7 @@ from os.path import join, dirname
 
 def seed_menus_and_items():
     # Define your menu categories
-    categories = ["hors d'oeuvres", "entrees", "accompaniments", "sides"]
+    categories = ["hors d'oeuvres", "entrees", "accompaniments", "desserts"]
     
     # Create and save menu categories
     for category in categories:
@@ -44,6 +44,27 @@ def seed_menus_and_items():
             db.session.commit()
     except FileNotFoundError:
         print(f"The file at {file_path} was not found.")
+
+
+fake = Faker()
+
+def create_users(num_users):
+    users = []
+    for _ in range(num_users):
+        username = fake.email()
+        password = fake.password()
+        user = User(username=username)
+        user.password_hash = password
+        users.append(user)
+    db.session.add_all(users)
+    db.session.commit()
+
+with app.app_context():
+    db.drop_all()
+    db.create_all()
+
+    create_users(3) # Create 3 users
+    
 
 if __name__ == "__main__":
     with app.app_context():
