@@ -1,7 +1,8 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.hybrid import hybrid_property
 
-from config import db
+from config import db, bcrypt
 
 # association table to store many-to-many relationship between UserMenu and MenuItem (UserMenuItem will have one UserMenu & one MenuItem)
 user_menu_items = db.Table('user_menu_items',
@@ -14,7 +15,7 @@ class Menu(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    category = db.Column(db.String(255), nullable=False)
+    
     
     items = db.relationship('MenuItem', back_populates='menu')
 
@@ -25,7 +26,7 @@ class MenuItem(db.Model, SerializerMixin):
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    category = db.Column(db.String(255), nullable=False)
+    
     
     menu_id = db.Column(db.Integer, db.ForeignKey('menus.id'))
     
@@ -54,8 +55,26 @@ class User(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), nullable=False)
+    _password_hash = db.Column(db.String, nullable=False)
     
     user_menus = db.relationship('UserMenu', back_populates='user', cascade='all, delete-orphan')
+    
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(
+            password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8')
+        )
+    
+    
     
     
     

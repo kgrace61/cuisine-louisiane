@@ -10,30 +10,41 @@ from models import db, Menu, MenuItem, UserMenu, User, user_menu_items
 import json
 from os.path import join, dirname
 
-def create_menu():
-    # construct the file path to JSON data
-    file_path = join(dirname(__file__), '../client/src/assets/TEST.json')
+def seed_menus_and_items():
+    # Define your menu categories
+    categories = ["hors d'oeuvres", "entrees", "accompaniments", "sides"]
     
-    # load the JSON data
+    # Create and save menu categories
+    for category in categories:
+        new_menu = Menu(name=category)
+        db.session.add(new_menu)
+    db.session.commit()
+    
+    # Load menu items from JSON
+    file_path = join(dirname(__file__), '../client/src/assets/TEST.json')
     try:
         with open(file_path, 'r') as file:
             data = json.load(file)
             
-            # iterate over items and add them to the database
             for item in data:
-                menu_item = MenuItem(
-                    id=item['id'],
-                    name=item['name'],
-                    description=item['description'],
-                    price=item['price'],
-                    category=item['category']
-                )
-                db.session.add(menu_item)
+                # Find the corresponding Menu entry by category name
+                menu = Menu.query.filter_by(name=item['category']).first()
+                if menu:
+                    # Create a new MenuItem with the foreign key set to the Menu's ID
+                    menu_item = MenuItem(
+                        name=item['name'],
+                        description=item['description'],
+                        price=item['price'],
+                        menu_id=menu.id  # Use the ID of the found Menu
+                    )
+                    db.session.add(menu_item)
+                else:
+                    print(f"Category {item['category']} not found.")
             
-            # commit the changes to the database
             db.session.commit()
     except FileNotFoundError:
         print(f"The file at {file_path} was not found.")
 
-with app.app_context():
-    create_menu()
+if __name__ == "__main__":
+    with app.app_context():
+        seed_menus_and_items()
