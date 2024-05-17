@@ -18,6 +18,8 @@ from models import Menu, MenuItem, UserMenu, User
 def index():
     return '<h1>Project Server</h1>'
 
+
+
 # routes for login and user authentication 
 @app.route('/users', methods=['POST']) #sign up route
 def manage_users():
@@ -59,6 +61,7 @@ def login():
         return response, 200
     return jsonify({'message': 'Invalid username or password'}), 401
 
+
 #route to access user info and delete user 
 class UsersById(Resource):
     def get(self, id):
@@ -96,6 +99,70 @@ class UsersById(Resource):
 
 api.add_resource(UsersById, '/users/<int:id>')
 
+# route to access all menus
+class MenuList(Resource):
+    def get(self):
+        # query all menus from the database
+        menus = Menu.query.all()
+        # serialize the menus to a list of dictionaries
+        menus_list = [menu.to_dict() for menu in menus]
+        return menus_list, 200
+
+# add the MenuList resource to the API
+api.add_resource(MenuList, '/menus')
+
+# route to retrieve menus by users
+class UserMenuList(Resource):
+    def get(self, id):
+        # query all UserMenu instances for the give user_id
+        user_menus = UserMenu.query.filter_by(id=id).all()
+        # serialize the UserMenu instances to a list of dictionaries
+        user_menus_list = [user_menu.to_dict() for user_menu in user_menus]
+        return user_menus_list, 200
+
+# add the UserMenuList resource to the API
+api.add_resource(UserMenuList, '/users/<int:user_id>/menus')
+
+# retrieve, update, or delete a specific user menu instance
+class UserMenuResource(Resource):
+    def get(self, user_menu_id):
+        # Query the UserMenu instance by ID
+        user_menu = UserMenu.query.get(user_menu_id)
+        if user_menu:
+            return user_menu.to_dict(), 200
+        else:
+            return {"error": "UserMenu not found"}, 404
+
+    def put(self, user_menu_id):
+        # Query the UserMenu instance by ID
+        user_menu = UserMenu.query.get(user_menu_id)
+        if not user_menu:
+            return {"error": "UserMenu not found"}, 404
+        
+        # Update the UserMenu instance with the provided data
+        data = request.get_json()
+        for key, value in data.items():
+            if hasattr(user_menu, key):
+                setattr(user_menu, key, value)
+        
+        db.session.commit()
+        return user_menu.to_dict(), 200
+
+    def delete(self, user_menu_id):
+        # Query the UserMenu instance by ID
+        user_menu = UserMenu.query.get(user_menu_id)
+        if not user_menu:
+            return {"error": "UserMenu not found"}, 404
+        
+        db.session.delete(user_menu)
+        db.session.commit()
+        return {"message": "UserMenu deleted successfully"}, 200
+
+# Add the UserMenuResource resource to the API
+api.add_resource(UserMenuResource, '/user_menus/<int:user_menu_id>')
+
+if __name__ == '__main__':
+    app.run(port=5555, debug=True)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

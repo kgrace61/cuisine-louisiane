@@ -25,7 +25,7 @@
         "name": "Assorted desserts",
         "description": "Assortment of hand held desserts- Chocolate decadence squares, pecan tartelettes, lemon bars, and south Louisiana pralines",
         "price": 2.75,
-        "category": "hors d'oeuvres"
+        "category": "desserts"
     },
     {
         "id": 5,
@@ -698,6 +698,307 @@
         "description": "Miniature BLT sandwiches with bacon, lettuce, and tomato",
         "price": 3.50,
         "category": "hors d'oeuvres"
+    },
+    {
+        "id": 101,
+        "name": "Roasted beef tenderloin",
+        "description": "Roasted beef tenderloin topped with crawfish and crab meat",
+        "price": 8.00,
+        "category": "entrees"
+    },
+    {
+        "id": 102,
+        "name": "Roasted rack of lamb",
+        "description": "Roasted rack of lamb with demi glace and mint jelly",
+        "price": 9.00,
+        "category": "entrees"
+    },
+    {
+        "id": 103,
+        "name": "Grilled Filet",
+        "description": "Grilled Filet",
+        "price": 24.00,
+        "category": "entrees"
+    },
+    {
+        "id": 104,
+        "name": "Grilled ribeye, New York strip, porterhouse steaks",
+        "description": "Grilled ribeye, New York strip, porterhouse steaks",
+        "price": 22.00,
+        "category": "entrees"
+    },
+    {
+        "id": 105,
+        "name": "Sauteed duck",
+        "description": "Sauteed duck with orange gastrique",
+        "price": 16.00,
+        "category": "entrees"
+    },
+    {
+        "id": 106,
+        "name": "Veal Oscar",
+        "description": "Veal Oscar with asparagus",
+        "price": 16.00,
+        "category": "entrees"
+    },
+    {
+        "id": 107,
+        "name": "Veal parmigiana",
+        "description": "Veal parmigiana",
+        "price": 13.00,
+        "category": "entrees"
+    },
+    {
+        "id": 108,
+        "name": "Pan sauteed fish",
+        "description": "Pan sauteed fish topped with seafood with rich cream sauce",
+        "price": 12.50,
+        "category": "entrees"
+    },
+    {
+        "id": 109,
+        "name": "Pecan roasted tenderloin",
+        "description": "Pecan roasted tenderloin stuffed with crabmeat",
+        "price": 23.00,
+        "category": "entrees"
+    },
+    {
+        "id": 110,
+        "name": "Grilled Norwegian salmon",
+        "description": "Grilled Norwegian salmon",
+        "price": 14.00,
+        "category": "entrees"
+    },
+    {
+        "id": 111,
+        "name": "New Orleans style barbecue shrimp",
+        "description": "New Orleans style barbecue shrimp",
+        "price": 14.00,
+        "category": "entrees"
+    },
+    {
+        "id": 112,
+        "name": "Roasted prime rib",
+        "description": "Roasted prime rib with au jus",
+        "price": 15.00,
+        "category": "entrees"
+    },
+    {
+        "id": 113,
+        "name": "Roasted quail",
+        "description": "Roasted quail with crawfish stuffing with roasted garlic glaze",
+        "price": 18.00,
+        "category": "entrees"
+    },
+    {
+        "id": 114,
+        "name": "Chicken Breaux Bridge",
+        "description": "Chicken Breaux Bridge over angel hair pasta with crawfish cream sauce",
+        "price": 13.00,
+        "category": "entrees"
+    },
+    {
+        "id": 115,
+        "name": "Seafood vol au vent",
+        "description": "Seafood vol au vent",
+        "price": 16.00,
+        "category": "entrees"
+    },
+    {
+        "id": 116,
+        "name": "Duck ragu and rice",
+        "description": "Duck ragu and rice",
+        "price": 16.00,
+        "category": "entrees"
+    },
+    {
+        "id": 117,
+        "name": "White rice",
+        "description": "Classic white rice, perfectly cooked",
+        "price": 1.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 118,
+        "name": "Rice pilaf",
+        "description": "Fluffy rice pilaf with a blend of spices",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 119,
+        "name": "Dirty rice",
+        "description": "Savory dirty rice with ground meat and spices",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 120,
+        "name": "Sweet potato yams",
+        "description": "Sweet and tender yams, baked to perfection",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 121,
+        "name": "Potato salad",
+        "description": "Creamy potato salad with a tangy dressing",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 122,
+        "name": "Boiled new potatoes",
+        "description": "Tender boiled new potatoes with a hint of butter",
+        "price": 2.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 123,
+        "name": "Roasted new potatoes",
+        "description": "Crispy roasted new potatoes with herbs",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 124,
+        "name": "Creamed potatoes",
+        "description": "Rich and creamy mashed potatoes",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 125,
+        "name": "Country potatoes",
+        "description": "Country-style potatoes with onion, bell pepper, and bacon",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 126,
+        "name": "Cornbread dressing",
+        "description": "Southern-style cornbread dressing",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 127,
+        "name": "Macaroni and Cheese",
+        "description": "Classic macaroni and cheese, baked to perfection",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 128,
+        "name": "French fried potatoes",
+        "description": "Crispy French fried potatoes",
+        "price": 2.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 129,
+        "name": "Potato tots",
+        "description": "Golden and crispy potato tots",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 130,
+        "name": "Baked potato with butter",
+        "description": "Baked potato served with butter",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 131,
+        "name": "Potatoes au gratin",
+        "description": "Cheesy potatoes au gratin",
+        "price": 4.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 132,
+        "name": "Stuffed twice baked potatoes",
+        "description": "Twice baked potatoes stuffed with cheese and bacon",
+        "price": 3.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 133,
+        "name": "Angel hair pasta",
+        "description": "Delicate angel hair pasta",
+        "price": 2.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 134,
+        "name": "Fettucine",
+        "description": "Classic fettucine pasta",
+        "price": 2.00,
+        "category": "accompaniments"
+    },
+    {
+        "id": 135,
+        "name": "French lemon tart",
+        "description": "A classic French lemon tart with a buttery crust and tangy lemon custard",
+        "price": 6.00,
+        "category": "desserts"
+    },
+    {
+        "id": 136,
+        "name": "Chocolate mousse swan",
+        "description": "Elegant chocolate mousse with a rich and creamy texture",
+        "price": 9.00,
+        "category": "desserts"
+    },
+    {
+        "id": 137,
+        "name": "Mille-feuille",
+        "description": "Layers of flaky puff pastry with vanilla mascarpone cream",
+        "price": 8.00,
+        "category": "desserts"
+    },
+    {
+        "id": 138,
+        "name": "Crème brulee",
+        "description": "Classic French dessert with a rich custard base and a caramelized sugar top",
+        "price": 7.00,
+        "category": "desserts"
+    },
+    {
+        "id": 139,
+        "name": "Cheesecake",
+        "description": "Creamy cheesecake with a graham cracker crust",
+        "price": 6.00,
+        "category": "desserts"
+    },
+    {
+        "id": 140,
+        "name": "Italian strawberry crème cake",
+        "description": "Light and fluffy Italian cake with layers of strawberry and cream",
+        "price": 6.00,
+        "category": "desserts"
+    },
+    {
+        "id": 141,
+        "name": "Pecan tart a la mode",
+        "description": "Rich pecan tart served with a scoop of vanilla ice cream",
+        "price": 6.00,
+        "category": "desserts"
+    },
+    {
+        "id": 142,
+        "name": "Chocolate decadence with raspberry glace",
+        "description": "Decadent chocolate cake with a raspberry glaze",
+        "price": 6.00,
+        "category": "desserts"
+    },
+    {
+        "id": 143,
+        "name": "Fruit tarte with crème anglaise",
+        "description": "Fresh fruit tart served with a smooth crème anglaise",
+        "price": 6.00,
+        "category": "desserts"
     }
 ]
 
