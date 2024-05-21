@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import MenuList from '../components/MenuList';
 
 const categories = [
   { id: 1, name: 'Hors d\'oeuvres' },
@@ -59,15 +60,7 @@ export default function Menus() {
       </div>
 
       {/* Display menu items */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {menuItems.map((item) => (
-          <div key={item.id} className="p-4 border rounded shadow">
-            <h3 className="text-xl font-bold">{item.name}</h3>
-            <p>{item.description}</p>
-            <p>${item.price.toFixed(2)}</p>
-          </div>
-        ))}
-      </div>
+      <MenuList menuItems={menuItems} />
 
       {/* Pagination controls */}
       <div className="flex justify-center mt-8">
