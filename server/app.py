@@ -18,7 +18,30 @@ from models import Menu, MenuItem, UserMenu, User
 def index():
     return '<h1>Project Server</h1>'
 
-
+@app.route('/menu-items', methods=['GET'])
+def get_menu_items():
+    menu_id = request.args.get('menu_id')
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 16))
+    
+    menu_items_query = MenuItem.query.filter_by(menu_id=menu_id)
+    total_items = menu_items_query.count()
+    menu_items = menu_items_query.paginate(page=page, per_page=per_page, error_out=False).items
+    
+    return jsonify({
+        'total_items': total_items,
+        'menu_items': [item.to_dict() for item in menu_items]
+    }), 200
+    
+# DOES THIS NEED TO BE MENU ITEMS BY MENU ID ?? 
+# accessing menu items by menu_id to populate the menu page by 'category' except category does not exist // would be menu_id
+class MenuItemsById(Resource):
+    def get(self, id):
+        menu_item = MenuItem.query.filter_by(id=id).first()
+        if menu_item:
+            return make_response(jsonify(menu_item.to_dict()), 200)
+        return make_response({'message': 'Menu item not found'}, 404)
+api.add_resource(MenuItemsById, '/menu-items/<int:id>')
 
 # routes for login and user authentication 
 @app.route('/users', methods=['POST']) #sign up route

@@ -18,6 +18,8 @@ class Menu(db.Model, SerializerMixin):
     
     
     items = db.relationship('MenuItem', back_populates='menu')
+    
+    serialize_rules = ('-items',)
 
 class MenuItem(db.Model, SerializerMixin):
     __tablename__ ='menu_items'
@@ -33,6 +35,7 @@ class MenuItem(db.Model, SerializerMixin):
     menu = db.relationship('Menu', back_populates='items')
     user_menus = db.relationship('UserMenu', secondary=user_menu_items, back_populates='menu_items')
     
+    serialize_rules = ('-menu','-user_menus')
     
 class UserMenu(db.Model, SerializerMixin):
     __tablename__ ='user_menus'

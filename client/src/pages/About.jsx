@@ -1,6 +1,6 @@
 import React from 'react';
-import crawfish from '../assets/crawfish.png'; // Adjust the path as necessary
-import chafing from '../assets/chafing.png'; // Adjust the path as necessary
+import crawfish from '../assets/crawfish.png'; 
+import chafing from '../assets/chafing.png'; 
 
 export default function About() {
   return (
