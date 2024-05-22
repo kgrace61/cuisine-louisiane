@@ -187,6 +187,4 @@ api.add_resource(UserMenuResource, '/user_menus/<int:user_menu_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 
-if __name__ == '__main__':
-    app.run(port=5555, debug=True)
 

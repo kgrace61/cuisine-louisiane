@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="iQlcacigr2z2rtyDbwIN" name="Page-1">
-        <mxGraphModel dx="860" dy="345" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="860" dy="497" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -46,7 +46,7 @@
                 <mxCell id="11" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Verdana;fontSize=12;" parent="2" vertex="1">
                     <mxGeometry y="110" width="540" height="54" as="geometry"/>
                 </mxCell>
-                <mxCell id="12" value="'/menus/:category'" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Verdana;fontSize=12;" parent="11" vertex="1">
+                <mxCell id="12" value="'/menus/:&amp;lt;int:id&amp;gt;'" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Verdana;fontSize=12;" parent="11" vertex="1">
                     <mxGeometry width="250" height="54" as="geometry">
                         <mxRectangle width="250" height="54" as="alternateBounds"/>
                     </mxGeometry>
@@ -56,7 +56,7 @@
                         <mxRectangle width="110" height="54" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="14" value="Retrieve menus for a specific category" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Verdana;fontSize=12;" parent="11" vertex="1">
+                <mxCell id="14" value="Retrieve menus for a specific category by id" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Verdana;fontSize=12;" parent="11" vertex="1">
                     <mxGeometry x="360" width="180" height="54" as="geometry">
                         <mxRectangle width="180" height="54" as="alternateBounds"/>
                     </mxGeometry>
