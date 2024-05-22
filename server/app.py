@@ -14,10 +14,6 @@ from models import Menu, MenuItem, UserMenu, User
 
 # Views go here!
 
-@app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
-
 @app.route('/menu-items', methods=['GET'])
 def get_menu_items():
     menu_id = request.args.get('menu_id')
@@ -32,7 +28,8 @@ def get_menu_items():
         'total_items': total_items,
         'menu_items': [item.to_dict() for item in menu_items]
     }), 200
-    
+
+
 # DOES THIS NEED TO BE MENU ITEMS BY MENU ID ?? 
 # accessing menu items by menu_id to populate the menu page by 'category' except category does not exist // would be menu_id
 class MenuItemsById(Resource):
@@ -183,6 +180,31 @@ class UserMenuResource(Resource):
 
 # Add the UserMenuResource resource to the API
 api.add_resource(UserMenuResource, '/user_menus/<int:user_menu_id>')
+
+@app.route('/user_menus', methods=['POST'])
+def create_user_menu():
+    data = request.get_json()
+    name = data.get('name')
+    guest_count = data.get('guest_count')
+    user_id = session.get('user_id')
+    menu_item_ids = data.get('items', [])
+
+    if not user_id:
+        return jsonify({'message': 'Unauthorized'}), 401
+
+    new_user_menu = UserMenu(name=name, guest_count=guest_count, user_id=user_id)
+    db.session.add(new_user_menu)
+    db.session.commit()
+
+    # Add menu items to the user menu
+    for item_id in menu_item_ids:
+        menu_item = MenuItem.query.get(item_id)
+        if menu_item:
+            new_user_menu.menu_items.append(menu_item)
+
+    db.session.commit()
+
+    return jsonify(new_user_menu.to_dict()), 201
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

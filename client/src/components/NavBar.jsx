@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 
 
-const NavBar = () => {
+const NavBar = ({ user, updateUser }) => {
   return (
     <nav className="bg-white  fixed w-full top-0 z-10">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">

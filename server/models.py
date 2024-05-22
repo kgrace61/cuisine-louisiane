@@ -28,7 +28,7 @@ class MenuItem(db.Model, SerializerMixin):
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    
+
     
     menu_id = db.Column(db.Integer, db.ForeignKey('menus.id'))
     
