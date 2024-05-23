@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 # Standard library imports
-
+import ipdb
 
 # Remote library imports
 from flask import Flask, request, make_response, session, jsonify  
 from flask_restful import Resource
+
 
 # Local imports
 from config import app, db, api
@@ -30,15 +31,15 @@ def get_menu_items():
     }), 200
 
 
-# DOES THIS NEED TO BE MENU ITEMS BY MENU ID ?? 
-# accessing menu items by menu_id to populate the menu page by 'category' except category does not exist // would be menu_id
-class MenuItemsById(Resource):
-    def get(self, id):
-        menu_item = MenuItem.query.filter_by(id=id).first()
-        if menu_item:
-            return make_response(jsonify(menu_item.to_dict()), 200)
-        return make_response({'message': 'Menu item not found'}, 404)
-api.add_resource(MenuItemsById, '/menu-items/<int:id>')
+# # DOES THIS NEED TO BE MENU ITEMS BY MENU ID ?? 
+# # accessing menu items by menu_id to populate the menu page by 'category' except category does not exist // would be menu_id
+# class MenuItemsById(Resource):
+#     def get(self, id):
+#         menu_item = MenuItem.query.filter_by(id=id).first()
+#         if menu_item:
+#             return make_response(jsonify(menu_item.to_dict()), 200)
+#         return make_response({'message': 'Menu item not found'}, 404)
+# api.add_resource(MenuItemsById, '/menu-items/<int:id>')
 
 # routes for login and user authentication 
 @app.route('/users', methods=['POST']) #sign up route
@@ -133,78 +134,65 @@ api.add_resource(MenuList, '/menus')
 
 # route to retrieve menus by users
 class UserMenuList(Resource):
-    def get(self, id):
+    def get(self, user_id):
         # query all UserMenu instances for the give user_id
-        user_menus = UserMenu.query.filter_by(id=id).all()
+        user_menus = UserMenu.query.filter_by(user_id=user_id).all()
         # serialize the UserMenu instances to a list of dictionaries
         user_menus_list = [user_menu.to_dict() for user_menu in user_menus]
-        return user_menus_list, 200
+        return jsonify(user_menus_list, 200)
 
 # add the UserMenuList resource to the API
 api.add_resource(UserMenuList, '/users/<int:user_id>/menus')
 
 # retrieve, update, or delete a specific user menu instance
 class UserMenuResource(Resource):
-    def get(self, user_menu_id):
-        # Query the UserMenu instance by ID
-        user_menu = UserMenu.query.get(user_menu_id)
-        if user_menu:
-            return user_menu.to_dict(), 200
-        else:
-            return {"error": "UserMenu not found"}, 404
-
-    def put(self, user_menu_id):
-        # Query the UserMenu instance by ID
-        user_menu = UserMenu.query.get(user_menu_id)
-        if not user_menu:
-            return {"error": "UserMenu not found"}, 404
-        
-        # Update the UserMenu instance with the provided data
+    def post(self):
         data = request.get_json()
-        for key, value in data.items():
-            if hasattr(user_menu, key):
-                setattr(user_menu, key, value)
+        name = data.get('name')
+        guest_count = data.get('guest_count')
+        user_id = data.get('user_id')
+        tax = data.get('tax')
+        subtotal = data.get('subtotal')
+        total = data.get('total')
         
-        db.session.commit()
-        return user_menu.to_dict(), 200
-
-    def delete(self, user_menu_id):
-        # Query the UserMenu instance by ID
-        user_menu = UserMenu.query.get(user_menu_id)
-        if not user_menu:
-            return {"error": "UserMenu not found"}, 404
+        if not user_id:
+            return make_response({'message': 'Unauthorized'}, 401)
         
-        db.session.delete(user_menu)
-        db.session.commit()
-        return {"message": "UserMenu deleted successfully"}, 200
+        try:
+            new_user_menu = UserMenu(
+                name=name, 
+                guest_count=guest_count, 
+                user_id=user_id, 
+                tax=tax, 
+                subtotal=subtotal, 
+                total=total
+            )
+            db.session.add(new_user_menu)
+            db.session.commit()
 
-# Add the UserMenuResource resource to the API
-api.add_resource(UserMenuResource, '/user_menus/<int:user_menu_id>')
+            # Add menu items to the user menu
+            for item_id in data.get('items', []):
+                menu_item = MenuItem.query.get(item_id)
+                if menu_item:
+                    new_user_menu.menu_items.append(menu_item)
 
-@app.route('/user_menus', methods=['POST'])
-def create_user_menu():
-    data = request.get_json()
-    name = data.get('name')
-    guest_count = data.get('guest_count')
-    user_id = session.get('user_id')
-    menu_item_ids = data.get('items', [])
+            db.session.commit()
 
-    if not user_id:
-        return jsonify({'message': 'Unauthorized'}), 401
+            return make_response(new_user_menu.to_dict(), 201)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
+            
+    def get(self):
+        user_id = session.get('user_id')
+        if not user_id:
+            return jsonify({'message': 'Unauthorized'}), 401
 
-    new_user_menu = UserMenu(name=name, guest_count=guest_count, user_id=user_id)
-    db.session.add(new_user_menu)
-    db.session.commit()
+        user_menus = UserMenu.query.filter_by(user_id=user_id).all()
+        return jsonify([user_menu.to_dict() for user_menu in user_menus]), 200
+    
+api.add_resource(UserMenuResource, '/user_menus')
 
-    # Add menu items to the user menu
-    for item_id in menu_item_ids:
-        menu_item = MenuItem.query.get(item_id)
-        if menu_item:
-            new_user_menu.menu_items.append(menu_item)
 
-    db.session.commit()
-
-    return jsonify(new_user_menu.to_dict()), 201
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -21,7 +21,7 @@ app = Flask(__name__)
 CORS(app)
 bcrypt = Bcrypt(app)
 
-# app.secret_key = b'\x9c\x8a\xc3\xdd\xce\x9e\xb9\x99\xdb!8"w\xd5~\xde'
+app.secret_key = b'\x89\xc4\x9f\x88\xb74\xf2B/.\xfd\x1d\xd6C\x8d\x11'
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
