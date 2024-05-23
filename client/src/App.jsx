@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from './pages/Home';
 import About from './pages/About';
@@ -18,8 +18,6 @@ function App() {
   // Effect hook to fetch user data on component mount
   useEffect(() => {
     fetch('http://localhost:5555/authenticate-session')
-
-    
     .then((res) => {
       if (res.ok){
         return res.json() // Parse JSON data if response is OK
@@ -28,6 +26,7 @@ function App() {
       }
     })
     .then(data => setUser(data)) // Update user state with fetched data
+    .catch(error => console.error('Error fetching user:', error));
   }, [])
 
   // Function to update user state
