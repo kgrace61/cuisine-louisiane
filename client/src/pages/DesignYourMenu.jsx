@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const categories = [
   { id: 1, name: 'Hors d\'oeuvres' },
@@ -8,22 +9,20 @@ const categories = [
 ];
 
 export default function DesignYourMenu({ user, updateUser }) {
-  const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
+  const [selectedCategory, setSelectedCategory] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [menuItems, setMenuItems] = useState([]);
   const [userMenu, setUserMenu] = useState([]);
   const [guestCount, setGuestCount] = useState(1);
   const [menuName, setMenuName] = useState('');
   const [totalItems, setTotalItems] = useState(0);
-  const itemsPerPage = 16; // Number of items to display per page
+  const itemsPerPage = 16;
 
-  // Fetch menu items based on selected category and current page
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
         const response = await fetch(`http://localhost:5555/menu-items?menu_id=${selectedCategory}&page=${currentPage}&per_page=${itemsPerPage}`);
         const data = await response.json();
-        console.log('Fetched data:', data); // Debugging statement
         setMenuItems(data.menu_items);
         setTotalItems(data.total_items);
       } catch (error) {
@@ -34,10 +33,9 @@ export default function DesignYourMenu({ user, updateUser }) {
     fetchMenuItems();
   }, [selectedCategory, currentPage]);
 
-  // Handlers for changing category and pagination
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
-    setCurrentPage(1); // Reset to first page when category changes
+    setCurrentPage(1);
   };
 
   const handlePageChange = (newPage) => {
@@ -60,7 +58,7 @@ export default function DesignYourMenu({ user, updateUser }) {
         body: JSON.stringify({
           name: menuName,
           guest_count: guestCount,
-          user_id: user.id, // Replace with the actual user ID, possibly from a logged-in user state
+          user_id: user.id,
           subtotal: subtotal.toFixed(2),
           tax: tax.toFixed(2),
           total: total.toFixed(2),
@@ -80,18 +78,15 @@ export default function DesignYourMenu({ user, updateUser }) {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const subtotal = userMenu.reduce((sum, item) => sum + item.price * guestCount, 0);
-  const tax = subtotal * 0.1; // Assuming 10% tax rate
+  const tax = subtotal * 0.1;
   const total = subtotal + tax;
 
   return (
     <div className="px-4 pt-[2in] font-julius text-sm">
-      {/* Grid layout with two columns */}
       <div className="grid grid-cols-2 gap-4">
-        {/* Left side: Menu items and categories */}
         <div>
-          {/* Mini navbar for categories */}
           <div className="flex justify-center space-x-4 mb-4">
-            {categories.map((category) => (
+            {categories.map(category => (
               <button
                 key={category.id}
                 className={`px-4 py-2 ${selectedCategory === category.id ? 'bg-gray-800 text-white' : 'bg-gray-200'}`}
@@ -102,14 +97,13 @@ export default function DesignYourMenu({ user, updateUser }) {
             ))}
           </div>
 
-          {/* Display menu items in a list */}
           <div>
-            {menuItems.map((item) => (
+            {menuItems.map(item => (
               <div key={item.id} className="p-4 border-b flex justify-between items-start">
                 <div className="flex-1 max-w-md">
                   <h3 className="text-lg font-bold">{item.name}</h3>
                   <p className="break-words">{item.description}</p>
-                  <p>${item.price.toFixed(2)}</p>
+                  <p>${item.price.toFixed(2)} per person</p>
                 </div>
                 <button
                   className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
@@ -121,7 +115,6 @@ export default function DesignYourMenu({ user, updateUser }) {
             ))}
           </div>
 
-          {/* Pagination controls */}
           <div className="flex justify-center mt-4">
             <button
               className="px-4 py-2 bg-gray-200"
@@ -141,7 +134,6 @@ export default function DesignYourMenu({ user, updateUser }) {
           </div>
         </div>
 
-        {/* Right side: User's menu */}
         <div>
           <h2 className="text-xl font-bold mb-4">Your Menu</h2>
           <input
@@ -151,6 +143,7 @@ export default function DesignYourMenu({ user, updateUser }) {
             placeholder="Menu Name"
             className="mb-2 p-2 border rounded w-full"
           />
+          <label className="block mb-2 font-bold">Please enter anticipated guest count for your event</label>
           <input
             type="number"
             value={guestCount}
@@ -159,12 +152,12 @@ export default function DesignYourMenu({ user, updateUser }) {
             className="mb-4 p-2 border rounded w-full"
           />
           <div>
-            {userMenu.map((item) => (
+            {userMenu.map(item => (
               <div key={item.id} className="p-4 border-b flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-bold">{item.name}</h3>
                   <p>{item.description}</p>
-                  <p>${item.price.toFixed(2)}</p>
+                  <p>${item.price.toFixed(2)} per person</p>
                 </div>
                 <button
                   className="ml-4 px-4 py-2 bg-red-500 text-white rounded"
@@ -176,9 +169,12 @@ export default function DesignYourMenu({ user, updateUser }) {
             ))}
           </div>
           <div className="mt-4">
+            <h3>Estimated Pricing:</h3>
             <h3>Subtotal: ${subtotal.toFixed(2)}</h3>
             <h3>Tax: ${tax.toFixed(2)}</h3>
             <h3>Total: ${total.toFixed(2)}</h3>
+            <br></br>
+            <h3>These prices are subject to change. Please contact us for a quote.</h3>
           </div>
           <button
             className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
@@ -186,6 +182,14 @@ export default function DesignYourMenu({ user, updateUser }) {
           >
             Save Menu
           </button>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold"></h2>
+            <Link to="/savedmenus">
+              <button className="px-4 py-2 bg-blue-500 text-white rounded">
+                View Saved Menus
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

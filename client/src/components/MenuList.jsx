@@ -7,7 +7,7 @@ const MenuList = ({ menuItems }) => {
         <div key={item.id} className="p-4 border rounded shadow">
           <h3 className="text-xl font-bold">{item.name}</h3>
           <p>{item.description}</p>
-          <p>${item.price.toFixed(2)}</p>
+          <p>${item.price.toFixed(2)} per person</p>
         </div>
       ))}
     </div>

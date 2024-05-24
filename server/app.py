@@ -139,7 +139,7 @@ class UserMenuList(Resource):
         user_menus = UserMenu.query.filter_by(user_id=user_id).all()
         # serialize the UserMenu instances to a list of dictionaries
         user_menus_list = [user_menu.to_dict() for user_menu in user_menus]
-        return jsonify(user_menus_list, 200)
+        return make_response(user_menus_list, 200)
 
 # add the UserMenuList resource to the API
 api.add_resource(UserMenuList, '/users/<int:user_id>/menus')
@@ -190,9 +190,28 @@ class UserMenuResource(Resource):
         user_menus = UserMenu.query.filter_by(user_id=user_id).all()
         return jsonify([user_menu.to_dict() for user_menu in user_menus]), 200
     
+    def delete(self, id):
+        user_menu = UserMenu.query.get(id)
+        if not user_menu:
+            return make_response({'message': 'UserMenu not found'}, 404)
+        
+        db.session.delete(user_menu)
+        db.session.commit()
+        return make_response({}, 204)
+    
 api.add_resource(UserMenuResource, '/user_menus')
 
+class UserMenuDetailResource(Resource):
+    def delete(self, user_id, menu_id):
+        user_menu = UserMenu.query.filter_by(id=menu_id, user_id=user_id).first()
+        if not user_menu:
+            return make_response({'message': 'UserMenu not found'}, 404)
+        
+        db.session.delete(user_menu)
+        db.session.commit()
+        return make_response({}, 204)
 
+api.add_resource(UserMenuDetailResource, '/users/<int:user_id>/menus/<int:menu_id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

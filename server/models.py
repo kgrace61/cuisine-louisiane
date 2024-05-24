@@ -52,7 +52,7 @@ class UserMenu(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='user_menus')
     menu_items = db.relationship('MenuItem', secondary=user_menu_items, back_populates='user_menus')
     
-    serialize_rules = ('-user','-menu_items',)
+    serialize_rules = ('-user',)
     
 class User(db.Model, SerializerMixin):
     __tablename__ ='users'
