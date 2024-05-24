@@ -44,6 +44,11 @@ export default function DesignYourMenu({ user, updateUser }) {
     setCurrentPage(newPage);
   };
 
+  const handleSearchChange = (newQuery) => {
+    setSearchQuery(newQuery);
+    setCurrentPage(1);  // Reset to the first page on a new search
+  };
+
   const handleAddToMenu = (item) => {
     setUserMenu([...userMenu, item]);
     setSearchQuery('');  // Clear the search query
@@ -109,7 +114,7 @@ export default function DesignYourMenu({ user, updateUser }) {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Search menu items..."
               className="p-2 border rounded w-full"
             />
