@@ -6,8 +6,8 @@ const MenuList = ({ menuItems }) => {
       {menuItems.map((item) => (
         <div key={item.id} className="p-4 border rounded shadow">
           <h3 className="text-xl font-bold">{item.name}</h3>
-          <p>{item.description}</p>
-          <p>${item.price.toFixed(2)} per person</p>
+          <p className="text-sm">{item.description}</p>
+          <p className="text-sm">${item.price.toFixed(2)} per person</p>
         </div>
       ))}
     </div>

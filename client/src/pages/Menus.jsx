@@ -61,7 +61,10 @@ export default function Menus() {
 
       {/* Display menu items */}
       <MenuList menuItems={menuItems} />
-
+        <div className="text-center mt-4">
+         
+          <h3>Prices are subject to change.</h3>
+        </div>
       {/* Pagination controls */}
       <div className="flex justify-center mt-8">
         <button

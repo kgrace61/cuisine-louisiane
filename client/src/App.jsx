@@ -17,18 +17,21 @@ function App() {
   const [user, setUser] = useState(null)
 
   // Effect hook to fetch user data on component mount
+  
   useEffect(() => {
-    fetch('http://localhost:5555/authenticate-session')
+    fetch('http://localhost:5555/authenticate-session', {
+      credentials: 'include',  // Include credentials (cookies) in the request
+    })
     .then((res) => {
-      if (res.ok){
-        return res.json() // Parse JSON data if response is OK
-      }else{
-        console.error('user not found') // Log error if user not found
+      if (res.ok) {
+        return res.json();  // Parse JSON data if response is OK
+      } else {
+        console.error('User not found');  // Log error if user not found
       }
     })
-    .then(data => setUser(data)) // Update user state with fetched data
+    .then(data => setUser(data))  // Update user state with fetched data
     .catch(error => console.error('Error fetching user:', error));
-  }, [])
+  }, []);
 
   // Function to update user state
   const updateUser = (user) => {

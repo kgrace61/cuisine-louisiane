@@ -16,12 +16,13 @@ export default function DesignYourMenu({ user, updateUser }) {
   const [guestCount, setGuestCount] = useState(1);
   const [menuName, setMenuName] = useState('');
   const [totalItems, setTotalItems] = useState(0);
-  const itemsPerPage = 16;
+  const [searchQuery, setSearchQuery] = useState('');
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch(`http://localhost:5555/menu-items?menu_id=${selectedCategory}&page=${currentPage}&per_page=${itemsPerPage}`);
+        const response = await fetch(`http://localhost:5555/menu-items?menu_id=${selectedCategory}&page=${currentPage}&per_page=${itemsPerPage}&search=${searchQuery}`);
         const data = await response.json();
         setMenuItems(data.menu_items);
         setTotalItems(data.total_items);
@@ -29,13 +30,14 @@ export default function DesignYourMenu({ user, updateUser }) {
         console.error('Failed to fetch menu items:', error);
       }
     };
-
+  
     fetchMenuItems();
-  }, [selectedCategory, currentPage]);
+  }, [selectedCategory, currentPage, searchQuery]);
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
     setCurrentPage(1);
+    setSearchQuery(''); // Clear the search query when category changes
   };
 
   const handlePageChange = (newPage) => {
@@ -44,6 +46,7 @@ export default function DesignYourMenu({ user, updateUser }) {
 
   const handleAddToMenu = (item) => {
     setUserMenu([...userMenu, item]);
+    setSearchQuery('');  // Clear the search query
   };
 
   const handleRemoveFromMenu = (itemId) => {
@@ -76,6 +79,11 @@ export default function DesignYourMenu({ user, updateUser }) {
     }
   };
 
+  const filteredMenuItems = menuItems.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const subtotal = userMenu.reduce((sum, item) => sum + item.price * guestCount, 0);
   const tax = subtotal * 0.1;
@@ -97,8 +105,18 @@ export default function DesignYourMenu({ user, updateUser }) {
             ))}
           </div>
 
+          <div className="flex justify-center mb-4">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search menu items..."
+              className="p-2 border rounded w-full"
+            />
+          </div>
+
           <div>
-            {menuItems.map(item => (
+            {filteredMenuItems.map(item => (
               <div key={item.id} className="p-4 border-b flex justify-between items-start">
                 <div className="flex-1 max-w-md">
                   <h3 className="text-lg font-bold">{item.name}</h3>

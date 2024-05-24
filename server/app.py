@@ -20,11 +20,19 @@ def get_menu_items():
     menu_id = request.args.get('menu_id')
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 16))
-    
+    search_query = request.args.get('search', '')
+
     menu_items_query = MenuItem.query.filter_by(menu_id=menu_id)
+
+    if search_query:
+        menu_items_query = menu_items_query.filter(
+            MenuItem.name.ilike(f'%{search_query}%') |
+            MenuItem.description.ilike(f'%{search_query}%')
+        )
+
     total_items = menu_items_query.count()
     menu_items = menu_items_query.paginate(page=page, per_page=per_page, error_out=False).items
-    
+
     return jsonify({
         'total_items': total_items,
         'menu_items': [item.to_dict() for item in menu_items]
