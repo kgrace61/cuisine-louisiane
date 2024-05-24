@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // Validation schemas for user, login, and signup forms
 const userSchema = Yup.object().shape({
@@ -26,6 +26,9 @@ const LoginSignup = ({ updateUser, user }) => {
 
   // Hook to navigate programmatically
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+  const initialMenu = location.state?.menu || {};
 
   // Function to handle form submission
   const handleSubmit = (values) => {
@@ -51,32 +54,38 @@ const LoginSignup = ({ updateUser, user }) => {
       .then(data => {
         updateUser(data); // Update user state with response data
         console.log('Success:', data);
-        navigate('/', { replace: true }); // Navigate to home page on successful login/signup
+        localStorage.setItem('user', JSON.stringify(data)); // store user in local storage
+        navigate(from, { replace: true, state: { menu: initialMenu } }); // Navigate to the initial page with menu state
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      updateUser(JSON.parse(storedUser)); // Update user state if user is stored in local storage
+    }
+  }, [updateUser])
+
   return (
     <div className="container mx-auto p-4 max-w-md">
-      {/* Button to toggle between login and signup forms */}
       <button
         onClick={() => setIsSignup(!isSignup)}
         className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
       >
         Switch to {isSignup ? 'Login' : 'Signup'}
       </button>
-      {/* Formik form for handling login/signup */}
       <Formik
         initialValues={{
           email: '',
           password: '',
         }}
-        validationSchema={isSignup ? SignupSchema : LoginSchema} // Choose the correct validation schema
+        validationSchema={isSignup ? SignupSchema : LoginSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, errors, touched }) => (
+        {({ isSubmitting }) => (
           <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
               <Field
@@ -96,7 +105,6 @@ const LoginSignup = ({ updateUser, user }) => {
               />
               <ErrorMessage name="password" component="div" className="text-red-500 text-xs italic" />
             </div>
-            {/* Submit button, disabled while submitting */}
             <div className="flex items-center justify-between">
               <button
                 type="submit"

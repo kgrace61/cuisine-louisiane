@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SavedMenus({ user }) {
   const [savedMenus, setSavedMenus] = useState([]);
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   useEffect(() => {
     if (user) {
@@ -29,14 +31,21 @@ export default function SavedMenus({ user }) {
     .catch(error => console.error('Error:', error));
   };
 
+  const handleBackClick = () => {
+    navigate('/designyourmenu'); // Use navigate instead of history.push
+  };
+
   if (!user) {
     return (
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
         <div className="mt-[2in] font-julius text-xl">Please log in to view your saved menus.</div>
       </div>
     );
   }
-
+  const handleEdit = (menu) => {
+    navigate('/designyourmenu', { state: { menu } });
+  };
+  
   return (
     <div className="px-4 pt-[2in] font-julius text-sm">
       <h1 className="text-2xl font-bold mb-4">Your Saved Menus</h1>
@@ -66,12 +75,24 @@ export default function SavedMenus({ user }) {
               >
                 Delete Menu
               </button>
+              <button
+                className="mt-4 ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+                onClick={() => handleEdit(menu)}
+              >
+                Edit Menu
+              </button>
             </li>
           ))}
         </ul>
       ) : (
         <p>You have no saved menus.</p>
       )}
+      <button
+        className="mt-8 px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={handleBackClick}
+      >
+        Back to Design Your Menu
+      </button>
     </div>
   );
 }

@@ -72,8 +72,10 @@ def logout():
 @app.route('/authenticate-session') #route for authentication 
 def authorize():
     cookie_id = request.cookies.get('user_id')  
-    if cookie_id:
-        user = User.query.filter_by(id=cookie_id).first() #check to see if cookie matches current user id
+    data = request.get_json()
+    user_id = int(data.get('currentSession'))
+    if user_id:
+        user = User.query.filter_by(id=user_id).first() #check to see if user id exists in db 
         if user:
             return make_response(user.to_dict(only=['id', 'username'])), 200
     return make_response({'message': 'failed to authenticate'}), 401
@@ -207,7 +209,30 @@ class UserMenuResource(Resource):
         db.session.commit()
         return make_response({}, 204)
     
-api.add_resource(UserMenuResource, '/user_menus')
+    def patch(self, id):
+        data = request.get_json()
+        user_menu = UserMenu.query.get(id)
+        
+        if not user_menu:
+            return make_response({'message': 'Menu not found'}, 404)
+        
+        user_menu.name = data.get('name', user_menu.name)
+        user_menu.guest_count = data.get('guest_count', user_menu.guest_count)
+        user_menu.tax = data.get('tax', user_menu.tax)
+        user_menu.subtotal = data.get('subtotal', user_menu.subtotal)
+        user_menu.total = data.get('total', user_menu.total)
+        user_menu.menu_items.clear()
+        
+        for item_id in data.get('items', []):
+            menu_item = MenuItem.query.get(item_id)
+            if menu_item:
+                user_menu.menu_items.append(menu_item)
+        
+        db.session.commit()
+        
+        return make_response(user_menu.to_dict(), 200)
+    
+api.add_resource(UserMenuResource, '/user_menus', '/user_menus/<int:id>')
 
 class UserMenuDetailResource(Resource):
     def delete(self, user_id, menu_id):

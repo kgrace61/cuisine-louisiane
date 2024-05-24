@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const categories = [
   { id: 1, name: 'Hors d\'oeuvres' },
@@ -9,14 +11,19 @@ const categories = [
 ];
 
 export default function DesignYourMenu({ user, updateUser }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const initialMenu = location.state?.menu || {};
+
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [menuItems, setMenuItems] = useState([]);
-  const [userMenu, setUserMenu] = useState([]);
-  const [guestCount, setGuestCount] = useState(1);
-  const [menuName, setMenuName] = useState('');
+  const [userMenu, setUserMenu] = useState(initialMenu.menu_items || []);
+  const [guestCount, setGuestCount] = useState(initialMenu.guest_count || 1);
+  const [menuName, setMenuName] = useState(initialMenu.name || '');
   const [totalItems, setTotalItems] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [notification, setNotification] = useState(''); // New state variable for notification
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -32,7 +39,7 @@ export default function DesignYourMenu({ user, updateUser }) {
     };
   
     fetchMenuItems();
-  }, [selectedCategory, currentPage, searchQuery]);
+  }, [selectedCategory, currentPage, searchQuery]); // Add selectedCategory as a dependency
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -50,8 +57,14 @@ export default function DesignYourMenu({ user, updateUser }) {
   };
 
   const handleAddToMenu = (item) => {
-    setUserMenu([...userMenu, item]);
-    setSearchQuery('');  // Clear the search query
+    // Check if item is already in the user's menu
+    const itemExists = userMenu.some(menuItem => menuItem.id === item.id);
+    if (itemExists) {
+      window.alert('This item has already been added to your menu.');
+    } else {
+      setUserMenu([...userMenu, item]);
+      setSearchQuery('');  // Clear the search query
+    }
   };
 
   const handleRemoveFromMenu = (itemId) => {
@@ -59,9 +72,25 @@ export default function DesignYourMenu({ user, updateUser }) {
   };
 
   const handleSaveMenu = async () => {
+    if (!user) {
+      setNotification('You must be logged in to save a menu.');
+      setTimeout(() => setNotification(''), 3000); // Clear the notification after 3 seconds
+      // Redirect to login page and pass current menu state
+      navigate('/signin', { state: { from: location, menu: { name: menuName, guest_count: guestCount, items: userMenu } } });
+      return;
+    }
+    
+    if (userMenu.length === 0) {
+      setNotification('You must add at least one menu item before saving.');
+      setTimeout(() => setNotification(''), 3000); // Clear the notification after 3 seconds
+      return;
+    }
+    const method = initialMenu.id ? 'PATCH' : 'POST';
+    const url = initialMenu.id ? `http://localhost:5555/user_menus/${initialMenu.id}` : 'http://localhost:5555/user_menus';
+  
     try {
-      const response = await fetch('http://localhost:5555/user_menus', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: menuName,
@@ -76,6 +105,18 @@ export default function DesignYourMenu({ user, updateUser }) {
       if (response.ok) {
         const data = await response.json();
         console.log('Saved menu:', data);
+        setNotification('Menu saved successfully!');
+        setTimeout(() => {
+          setNotification('');
+          // Reset the page
+          setSelectedCategory(1);
+          setCurrentPage(1);
+          setUserMenu([]);
+          setGuestCount(1);
+          setMenuName('');
+          setTotalItems(0);
+          setSearchQuery('');
+        }, 3000); // Clear the notification and reset the page after 3 seconds
       } else {
         console.error('Failed to save menu:', await response.json());
       }
@@ -129,7 +170,7 @@ export default function DesignYourMenu({ user, updateUser }) {
                   <p>${item.price.toFixed(2)} per person</p>
                 </div>
                 <button
-                  className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+                  className="ml-4 px-4 py-2 bg-gray-500 text-black rounded"
                   onClick={() => handleAddToMenu(item)}
                 >
                   Add to menu
@@ -213,6 +254,11 @@ export default function DesignYourMenu({ user, updateUser }) {
               </button>
             </Link>
           </div>
+          {notification && (
+            <div className="p-4 bg-green-100 text-green-800 border border-green-200 rounded mt-4">
+              {notification}
+            </div>
+          )}
         </div>
       </div>
     </div>

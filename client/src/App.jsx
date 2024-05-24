@@ -8,36 +8,43 @@ import Gallery from './pages/Gallery';
 import DesignYourMenu from './pages/DesignYourMenu';
 import SavedMenus from './pages/SavedMenus';
 import NavBar from './components/NavBar';
-import SignIn from './pages/SignIn'
+import SignIn from './pages/SignIn';
 import './App.css';
-import './input.css'
+import './input.css';
 
 function App() {
-  // State hook to manage user state
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
-  // Effect hook to fetch user data on component mount
-  
   useEffect(() => {
-    fetch('http://localhost:5555/authenticate-session', {
-      credentials: 'include',  // Include credentials (cookies) in the request
-    })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();  // Parse JSON data if response is OK
-      } else {
-        console.error('User not found');  // Log error if user not found
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Failed to parse stored user data:', error);
+        localStorage.removeItem('user'); // Remove invalid data from localStorage
       }
-    })
-    .then(data => setUser(data))  // Update user state with fetched data
-    .catch(error => console.error('Error fetching user:', error));
+    } else {
+      fetch('http://localhost:5555/authenticate-session', {
+        credentials: 'include',
+      })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          console.error('User not found');
+        }
+      })
+      .then(data => setUser(data))
+      .catch(error => console.error('Error fetching user:', error));
+    }
   }, []);
 
-  // Function to update user state
   const updateUser = (user) => {
-    setUser(user)
-  } 
-  
+    setUser(user);
+  };
+
   return (
     <Router>
       <div className="app">
@@ -49,8 +56,8 @@ function App() {
           <Route path="/menus" element={<Menus />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/designyourmenu" element={<DesignYourMenu user={user} updateUser={updateUser} />} />
-          <Route path="/savedmenus" element={<SavedMenus user={user} />} />
-          <Route path="/signin" element={<SignIn updateUser={updateUser} user={user}/>} />
+          <Route path="/savedmenus" element={<SavedMenus user={user} updateUser={updateUser} />} />
+          <Route path="/signin" element={<SignIn updateUser={updateUser} user={user} />} />
         </Routes>
       </div>
     </Router>

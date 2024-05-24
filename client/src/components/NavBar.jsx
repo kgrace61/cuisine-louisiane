@@ -11,6 +11,7 @@ const NavBar = ({ user, updateUser }) => {
     fetch('http://localhost:5555/logout')
       .then(res => res.json())
       .then(data => {
+        localStorage.removeItem('user');
         updateUser(null); // Update user state to null after logout
         navigate('/signin', { replace: true }); // Navigate to signin page after logout
       })

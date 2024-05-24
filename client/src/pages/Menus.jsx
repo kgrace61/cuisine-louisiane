@@ -8,7 +8,7 @@ const categories = [
   { id: 4, name: 'Desserts' }
 ];
 
-export default function Menus() {
+export default function Menus({ user }) {
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
   const [currentPage, setCurrentPage] = useState(1);
   const [menuItems, setMenuItems] = useState([]);
@@ -43,6 +43,7 @@ export default function Menus() {
   };
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
 
   return (
     <div className="px-[2in] pt-[1in] font-julius">
