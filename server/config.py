@@ -18,7 +18,7 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 bcrypt = Bcrypt(app)
 
 app.secret_key = b'\x89\xc4\x9f\x88\xb74\xf2B/.\xfd\x1d\xd6C\x8d\x11'

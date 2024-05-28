@@ -8,7 +8,7 @@ const categories = [
   { id: 4, name: 'Desserts' }
 ];
 
-export default function Menus({ user }) {
+export default function Menus({}) {
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
   const [currentPage, setCurrentPage] = useState(1);
   const [menuItems, setMenuItems] = useState([]);
