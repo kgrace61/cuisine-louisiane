@@ -19,20 +19,14 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
 });
 
-// Main component for login and signup functionality
 const LoginSignup = ({ updateUser, user }) => {
-  // State to toggle between login and signup forms
   const [isSignup, setIsSignup] = useState(false);
-
-  // Hook to navigate programmatically
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
   const initialMenu = location.state?.menu || {};
 
-  // Function to handle form submission
   const handleSubmit = (values) => {
-    // Determine the URL based on whether the user is signing up or logging in
     const url = isSignup ? 'http://localhost:5555/users' : 'http://localhost:5555/login';
     fetch(url, {
       method: 'POST',
@@ -40,7 +34,7 @@ const LoginSignup = ({ updateUser, user }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: values.email.toLowerCase(), // Convert email to lowercase to ensure case-insensitivity
+        username: values.email.toLowerCase(),
         password: values.password,
       }),
     })
@@ -52,10 +46,10 @@ const LoginSignup = ({ updateUser, user }) => {
         }
       })
       .then(data => {
-        updateUser(data); // Update user state with response data
+        updateUser(data);
         console.log('Success:', data);
-        localStorage.setItem('user', JSON.stringify(data)); // store user in local storage
-        navigate(from, { replace: true, state: { menu: initialMenu } }); // Navigate to the initial page with menu state
+        localStorage.setItem('user', JSON.stringify(data));
+        navigate(from, { replace: true, state: { menu: initialMenu } });
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -65,9 +59,9 @@ const LoginSignup = ({ updateUser, user }) => {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      updateUser(JSON.parse(storedUser)); // Update user state if user is stored in local storage
+      updateUser(JSON.parse(storedUser));
     }
-  }, [updateUser])
+  }, [updateUser]);
 
   return (
     <div className="container mx-auto p-4 max-w-md">
@@ -78,10 +72,7 @@ const LoginSignup = ({ updateUser, user }) => {
         Switch to {isSignup ? 'Login' : 'Signup'}
       </button>
       <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
+        initialValues={{ email: '', password: '' }}
         validationSchema={isSignup ? SignupSchema : LoginSchema}
         onSubmit={handleSubmit}
       >

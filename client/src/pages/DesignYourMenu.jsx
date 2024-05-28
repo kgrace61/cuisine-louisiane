@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 
 const categories = [
   { id: 1, name: 'Hors d\'oeuvres' },
@@ -74,20 +73,20 @@ export default function DesignYourMenu({ user, updateUser }) {
   const handleSaveMenu = async () => {
     if (!user) {
       setNotification('You must be logged in to save a menu.');
-      setTimeout(() => setNotification(''), 3000); // Clear the notification after 3 seconds
-      // Redirect to login page and pass current menu state
+      setTimeout(() => setNotification(''), 3000);
       navigate('/signin', { state: { from: location, menu: { name: menuName, guest_count: guestCount, items: userMenu } } });
       return;
     }
-    
+
     if (userMenu.length === 0) {
       setNotification('You must add at least one menu item before saving.');
-      setTimeout(() => setNotification(''), 3000); // Clear the notification after 3 seconds
+      setTimeout(() => setNotification(''), 3000);
       return;
     }
+
     const method = initialMenu.id ? 'PATCH' : 'POST';
     const url = initialMenu.id ? `http://localhost:5555/user_menus/${initialMenu.id}` : 'http://localhost:5555/user_menus';
-  
+
     try {
       const response = await fetch(url, {
         method,
@@ -108,7 +107,6 @@ export default function DesignYourMenu({ user, updateUser }) {
         setNotification('Menu saved successfully!');
         setTimeout(() => {
           setNotification('');
-          // Reset the page
           setSelectedCategory(1);
           setCurrentPage(1);
           setUserMenu([]);
@@ -116,7 +114,7 @@ export default function DesignYourMenu({ user, updateUser }) {
           setMenuName('');
           setTotalItems(0);
           setSearchQuery('');
-        }, 3000); // Clear the notification and reset the page after 3 seconds
+        }, 3000);
       } else {
         console.error('Failed to save menu:', await response.json());
       }

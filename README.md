@@ -8,6 +8,7 @@ An app for Cuisine Louisiane catering company. A user can view menus, build thei
 * A user can view about information on the company and venue
 * A user can choose menu items to build their own menu for an event
 * A user can name their menu (Kate's Bridal Shower, etc)
+* A user can edit their menu for an event
 * A user can delete menu items from the menus that they build
 * A user can view pricing updated dynamically based on event size (amount of people)
 
