@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import design from '../assets/design.png';
 
 
 const categories = [
@@ -134,7 +135,8 @@ export default function DesignYourMenu({ user, updateUser }) {
   const total = subtotal + tax;
 
   return (
-    <div className="px-4 pt-[2in] font-julius text-sm">
+    <div className="px-4 pt-[1in] font-julius text-sm">
+      <img src={design} alt="Cuisine Louisiane" className="w-full mx-auto mb-2" />
       <div className="grid grid-cols-2 gap-4">
         <div>
           <div className="flex justify-center space-x-4 mb-4">
@@ -177,7 +179,7 @@ export default function DesignYourMenu({ user, updateUser }) {
             ))}
           </div>
 
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-4 mb-4">
             <button
               className="px-4 py-2 bg-gray-200"
               onClick={() => handlePageChange(currentPage - 1)}

@@ -67,7 +67,7 @@ export default function Menus({}) {
           <h3>Prices are subject to change.</h3>
         </div>
       {/* Pagination controls */}
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-8 mb-4">
         <button
           className="px-4 py-2 bg-gray-200"
           onClick={() => handlePageChange(currentPage - 1)}
