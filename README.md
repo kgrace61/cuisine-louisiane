@@ -5,41 +5,47 @@ An app for Cuisine Louisiane catering company. A user can view menus, build thei
 ## Getting Started
 To get a local copy running, follow these steps:
 
-*1.* Clone the repository
+1. Clone the repository
 
 Back-end installation
 
-*2.* Navigate to the server directory:    
+2. Navigate to the server directory:    
     
     cd server
 
-*3.* Install pipenv and dependencies: 
+3. Install pipenv and project dependencies: 
     
     pipenv install
 
-*4.* Activate the virtual environment: 
+4. Activate the virtual environment: 
     
     pipenv shell
 
-*5.* Apply database migrations
+5. Apply database migrations
     
+    cd server
+
     flask db upgrade head
 
-*6.* Populate the database
+6. Populate the database with inital data
     
     python seed.py
 
+7. Start the back-end server:
+
+    python app.py
+
 Front-end installation
 
-*7.* Navigate to the client directory:
+8. In a new terminal, navigate to the client directory:
     
     cd client
 
-*6.* Install npm packages
+9. Install npm packages:
     
     npm install
 
-*7.* Run the client-side 
+10. Start the front-end development server:
     
     npm run dev
 
