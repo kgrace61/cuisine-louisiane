@@ -7,48 +7,64 @@ To get a local copy running, follow these steps:
 
 1. Clone the repository
 
-Back-end installation
+
+### Back-end installation
+
 
 2. Navigate to the server directory:    
     
+```bash
     cd server
+```
 
 3. Install pipenv and project dependencies: 
-    
+
+```bash    
     pipenv install
+```
 
 4. Activate the virtual environment: 
-    
+ 
+```bash   
     pipenv shell
+```
 
 5. Apply database migrations
     
+```bash
     cd server
-
+```
+```bash
     flask db upgrade head
-
+```
 6. Populate the database with inital data
     
+```bash
     python seed.py
+```
 
 7. Start the back-end server:
 
+```bash
     python app.py
-
-Front-end installation
+ ```
+### Front-end installation
 
 8. In a new terminal, navigate to the client directory:
-    
+
+```bash    
     cd client
-
+```
 9. Install npm packages:
-    
+
+```bash    
     npm install
-
+```
 10. Start the front-end development server:
-    
-    npm run dev
 
+```bash    
+    npm run dev
+```
 
 
 ## Deliverables

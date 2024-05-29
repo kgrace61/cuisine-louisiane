@@ -53,22 +53,24 @@ const breakpointColumnsObj = {
     return (
       <div className="p-8">
         <h1 className="text-center font-bold text-2xl mb-4">Gallery</h1>
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="flex -ml-4 w-auto"
-          columnClassName="pl-4 bg-clip-padding"
-        >
-          {images.map((image, index) => (
-            <div key={index} className="mb-4">
-              <img 
-                src={image} 
-                alt={`Gallery image ${index + 1}`} 
-                className="w-full h-auto object-cover" 
-                loading="lazy" 
-              />
-            </div>
-          ))}
-        </Masonry>
+        <div className="px-4">
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="flex w-auto"
+            columnClassName="bg-clip-padding"
+          >
+            {images.map((image, index) => (
+              <div key={index} className="mb-2 p-2"> {/* Added p-2 for padding */}
+                <img
+                  src={image}
+                  alt={`Gallery image ${index + 1}`}
+                  className="w-full h-auto object-cover"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </Masonry>
+        </div>
       </div>
     );
   }
