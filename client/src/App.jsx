@@ -17,30 +17,38 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error('Failed to parse stored user data:', error);
-        localStorage.removeItem('user'); // Remove invalid data from localStorage
-      }
-    } else {
-      fetch('http://localhost:5555/authenticate-session', {
-        credentials: 'include',
-      })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          console.error('User not found');
+    const fetchUser = async () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+        } catch (error) {
+          console.error('Failed to parse stored user data:', error);
+          localStorage.removeItem('user'); // Remove invalid data from localStorage
+        } finally {
+          setLoading(false);
         }
-      })
-      .then(data => setUser(data))
-      .catch(error => console.error('Error fetching user:', error))
-      .finally(() => setLoading(false));
-    }
+      } else {
+        try {
+          const response = await fetch('http://localhost:5555/authenticate-session', {
+            credentials: 'include',
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setUser(data);
+          } else {
+            console.error('User not found');
+          }
+        } catch (error) {
+          console.error('Error fetching user:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchUser();
   }, []);
 
   const updateUser = (user) => {
