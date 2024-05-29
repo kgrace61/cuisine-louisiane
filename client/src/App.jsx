@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import OurVenue from './pages/OurVenue';
@@ -14,6 +14,7 @@ import './input.css';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -37,13 +38,18 @@ function App() {
         }
       })
       .then(data => setUser(data))
-      .catch(error => console.error('Error fetching user:', error));
+      .catch(error => console.error('Error fetching user:', error))
+      .finally(() => setLoading(false));
     }
   }, []);
 
   const updateUser = (user) => {
     setUser(user);
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // Add a loading state if necessary
+  }
 
   return (
     <Router>

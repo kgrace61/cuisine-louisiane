@@ -1,19 +1,16 @@
 import React from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavBar = ({ user, updateUser }) => {
-  // Hook to programmatically navigate between routes
   const navigate = useNavigate();
 
-  // Function to handle user logout
   const handleLogout = () => {
-    // Fetch call to logout endpoint
     fetch('http://localhost:5555/logout')
       .then(res => res.json())
       .then(data => {
         localStorage.removeItem('user');
-        updateUser(null); // Update user state to null after logout
-        navigate('/signin', { replace: true }); // Navigate to signin page after logout
+        updateUser(null);
+        navigate('/signin', { replace: true });
       })
       .catch(error => console.error('Error logging out:', error));
   };
