@@ -19,12 +19,11 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
 });
 
-const LoginSignup = ({ updateUser, user }) => {
+const LoginSignup = ({ updateUser, user, initialMenu }) => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
-  const initialMenu = location.state?.menu || {};
 
   const handleSubmit = (values) => {
     const url = isSignup ? 'http://localhost:5555/users' : 'http://localhost:5555/login';

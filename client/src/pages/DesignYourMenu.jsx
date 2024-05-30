@@ -75,19 +75,19 @@ export default function DesignYourMenu({ user, updateUser }) {
     if (!user) {
       setNotification('You must be logged in to save a menu.');
       setTimeout(() => setNotification(''), 3000);
-      navigate('/signin', { state: { from: location, menu: { name: menuName, guest_count: guestCount, items: userMenu } } });
+      navigate('/signin', { state: { from: location, menu: { name: menuName, guest_count: guestCount, menu_items: userMenu } } });
       return;
     }
-
+  
     if (userMenu.length === 0) {
       setNotification('You must add at least one menu item before saving.');
       setTimeout(() => setNotification(''), 3000);
       return;
     }
-
+  
     const method = initialMenu.id ? 'PATCH' : 'POST';
     const url = initialMenu.id ? `http://localhost:5555/user_menus/${initialMenu.id}` : 'http://localhost:5555/user_menus';
-
+  
     try {
       const response = await fetch(url, {
         method,
