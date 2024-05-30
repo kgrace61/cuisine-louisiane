@@ -13,15 +13,15 @@ export default function Menus({}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [menuItems, setMenuItems] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const itemsPerPage = 16; // Number of items to display per page
+  const itemsPerPage = 16; // number of items to display per page
 
-  // Fetch menu items based on selected category and current page
+  // fetch menu items based on selected category and current page
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
         const response = await fetch(`http://localhost:5555/menu-items?menu_id=${selectedCategory}&page=${currentPage}&per_page=${itemsPerPage}`);
         const data = await response.json();
-        console.log('Fetched data:', data); // Debugging statement
+        console.log('Fetched data:', data); // debugging
         setMenuItems(data.menu_items);
         setTotalItems(data.total_items);
       } catch (error) {

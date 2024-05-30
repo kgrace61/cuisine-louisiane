@@ -27,6 +27,7 @@ const NavBar = ({ user, updateUser }) => {
           <Link to="/menus" className="hover:text-gray-900">Menus</Link>
           <Link to="/gallery" className="hover:text-gray-900">Gallery</Link>
           <Link to="/designyourmenu" className="hover:text-gray-900">Design Your Menu</Link>
+          <Link to="/contact" className="hover:text-gray-900">Contact Us</Link>
           {user ? (
             <>
               <span className="hover:text-gray-900">Welcome, {user.username}</span>

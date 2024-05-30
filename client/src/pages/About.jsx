@@ -30,7 +30,7 @@ export default function About() {
           </p>
           <img 
             src={chafing2} 
-            alt="crawfish" 
+            alt="chafing dishes" 
             className="w-full md:w-1/2 h-auto order-1 md:order-2" 
           />
         </div>

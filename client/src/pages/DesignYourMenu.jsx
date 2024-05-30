@@ -23,7 +23,7 @@ export default function DesignYourMenu({ user, updateUser }) {
   const [menuName, setMenuName] = useState(initialMenu.name || '');
   const [totalItems, setTotalItems] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [notification, setNotification] = useState(''); // New state variable for notification
+  const [notification, setNotification] = useState(''); 
   const itemsPerPage = 6;
 
   useEffect(() => {

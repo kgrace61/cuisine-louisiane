@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SavedMenus({ user }) {
   const [savedMenus, setSavedMenus] = useState([]);
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (user) {
       fetch(`http://localhost:5555/users/${user.id}/menus`)
         .then(response => response.json())
         .then(data => {
-          console.log('Fetched menus:', data); // Debug: Check the fetched data
+          console.log('Fetched menus:', data); // debugging: Check the fetched data
           setSavedMenus(Array.isArray(data) ? data : []);
         })
         .catch(error => console.error('Error fetching saved menus:', error));
@@ -32,7 +32,7 @@ export default function SavedMenus({ user }) {
   };
 
   const handleBackClick = () => {
-    navigate('/designyourmenu'); // Use navigate instead of history.push
+    navigate('/designyourmenu'); 
   };
 
   if (!user) {

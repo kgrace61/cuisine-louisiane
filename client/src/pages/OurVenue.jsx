@@ -1,5 +1,5 @@
 import React from 'react';
-import JG1 from '../assets/JG1.png'; // Adjust the path as necessary
+import JG1 from '../assets/JG1.png'; 
 
 export default function OurVenue() {
   return (

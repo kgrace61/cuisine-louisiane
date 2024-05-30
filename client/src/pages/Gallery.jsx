@@ -1,5 +1,7 @@
 import React from 'react';
 import Masonry from 'react-masonry-css';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import gallery1 from '../assets/gallery/gallery1.png';
 import gallery2 from '../assets/gallery/gallery2.png';
@@ -34,45 +36,44 @@ import gallery31 from '../assets/gallery/gallery31.png';
 import gallery32 from '../assets/gallery/gallery32.png';
 import gallery33 from '../assets/gallery/gallery33.png';
 
-
 const images = [
-  gallery1, gallery25,  gallery12, gallery32, gallery7, gallery33, gallery26, gallery3, gallery28, gallery4,
-  gallery29, gallery5, gallery6,  gallery8, 
-  gallery9, gallery10, gallery13, gallery15, gallery14, 
-  gallery16, gallery17, gallery18, gallery19, gallery21, gallery22, 
+  gallery1, gallery25, gallery12, gallery32, gallery7, gallery33, gallery26, gallery3, gallery28, gallery4,
+  gallery29, gallery5, gallery6, gallery8,
+  gallery9, gallery10, gallery13, gallery15, gallery14,
+  gallery16, gallery17, gallery18, gallery19, gallery21, gallery22,
   gallery23, gallery24, gallery27, gallery30, gallery31
 ];
 
 const breakpointColumnsObj = {
-    default: 3,
-    1100: 2,
-    700: 1
-  };
-  
-  function Gallery() {
-    return (
-      <div className="p-8">
-        <h1 className="text-center font-bold text-2xl mb-4">Gallery</h1>
-        <div className="px-4">
-          <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className="flex w-auto"
-            columnClassName="bg-clip-padding"
-          >
-            {images.map((image, index) => (
-              <div key={index} className="mb-2 p-2"> {/* Added p-2 for padding */}
-                <img
-                  src={image}
-                  alt={`Gallery image ${index + 1}`}
-                  className="w-full h-auto object-cover"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </Masonry>
-        </div>
+  default: 3,
+  1100: 2,
+  700: 1
+};
+
+function Gallery() {
+  return (
+    <div className="p-8">
+      <h1 className="text-center font-bold text-2xl mb-4">Gallery</h1>
+      <div className="px-4">
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="flex w-auto"
+          columnClassName="bg-clip-padding"
+        >
+          {images.map((image, index) => (
+            <div key={index} className="mb-2 p-2"> {/* Added p-2 for padding */}
+              <LazyLoadImage
+                src={image}
+                alt={`Gallery image ${index + 1}`}
+                className="w-full h-auto object-cover"
+                effect="blur" // Optional: adds a blur effect while loading
+              />
+            </div>
+          ))}
+        </Masonry>
       </div>
-    );
-  }
-  
-  export default Gallery;
+    </div>
+  );
+}
+
+export default Gallery;

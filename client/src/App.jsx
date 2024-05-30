@@ -8,6 +8,7 @@ import Gallery from './pages/Gallery';
 import DesignYourMenu from './pages/DesignYourMenu';
 import SavedMenus from './pages/SavedMenus';
 import NavBar from './components/NavBar';
+import Contact from './pages/Contact';
 import SignIn from './pages/SignIn';
 import './App.css';
 import './input.css';
@@ -71,6 +72,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/designyourmenu" element={<DesignYourMenu user={user} updateUser={updateUser} />} />
           <Route path="/savedmenus" element={<SavedMenus user={user} updateUser={updateUser} />} />
+          <Route path="/contact" element={<Contact user={user} />} />
           <Route path="/signin" element={<SignIn updateUser={updateUser} user={user} />} />
         </Routes>
       </div>
