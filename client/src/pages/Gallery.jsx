@@ -61,12 +61,12 @@ function Gallery() {
           columnClassName="bg-clip-padding"
         >
           {images.map((image, index) => (
-            <div key={index} className="mb-2 p-2"> {/* Added p-2 for padding */}
+            <div key={index} className="mb-2 p-2"> {/* p-2 for padding */}
               <LazyLoadImage
                 src={image}
                 alt={`Gallery image ${index + 1}`}
                 className="w-full h-auto object-cover"
-                effect="blur" // Optional: adds a blur effect while loading
+                effect="blur" // blur effect while loading
               />
             </div>
           ))}
