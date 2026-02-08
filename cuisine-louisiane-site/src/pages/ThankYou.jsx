@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function ThankYou() {
   return (
-    <div className="min-h-screen bg-gray-50 px-6 md:px-16 lg:px-[2in] py-16 font-julius">
+    <div className="min-h-screen bg-gray-50 pt-28 px-6 md:px-16 lg:px-[2in] py-16 font-julius">
       <div className="max-w-3xl mx-auto text-center bg-white border rounded-lg p-10">
         <h1 className="text-4xl md:text-5xl font-pinyon text-maroon">Thank you</h1>
         <p className="mt-4 text-base md:text-lg">
