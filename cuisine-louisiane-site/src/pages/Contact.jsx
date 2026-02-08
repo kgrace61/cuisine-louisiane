@@ -26,6 +26,7 @@ export default function Contact() {
             >
               {/* Netlify required hidden fields */}
               <input type="hidden" name="form-name" value="contact" />
+<input type="hidden" name="redirect" value="/thank-you.html" />
               <p className="hidden">
                 <label>
                   Don’t fill this out: <input name="bot-field" />
